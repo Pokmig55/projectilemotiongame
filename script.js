@@ -8,7 +8,7 @@ let speedDisplay = document.getElementById("speedDisplay");
 let scoreDisplay = document.getElementById("score");
 
 // Game variables
-const gravity = 9.81;
+const gravity = 9.8;
 let projectile = { x: 100, y: 500, dx: 0, dy: 0, active: false };
 let target = { x: Math.random() * 400 + 300, y: 500, radius: 20 };
 let speed = Math.random() * 30 + 50; // Random speed between 50 and 80 m/s
@@ -105,3 +105,4 @@ rangeDisplay.textContent = `300 to 700`;
 speedDisplay.textContent = speed.toFixed(1);
 scoreDisplay.textContent = score;
 gameLoop();
+
