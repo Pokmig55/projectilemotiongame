@@ -2,6 +2,71 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const gravity = 9.8;
 
+let round = 1;
+let score = 0;
+
+// Update HTML elements
+const roundDisplay = document.getElementById("roundDisplay");
+const scoreDisplay = document.getElementById("scoreDisplay");
+
+// Function to handle rounds
+function handleRound() {
+    if (round === 1) {
+        // Round 1: System provides speed, player guesses angle
+        speed = 50; // Fixed speed for Round 1
+        alert("Round 1: Guess the angle to hit the target!");
+    } else if (round === 2) {
+        // Round 2: System provides angle, player guesses speed
+        angle = Math.floor(Math.random() * 70) + 10; // Random angle for Round 2
+        alert("Round 2: Guess the speed to hit the target!");
+    } else {
+        alert("Game Over! Final Score: " + score);
+        resetGame();
+    }
+}
+
+// Check input and validate
+function validateInput() {
+    if (round === 1) {
+        // Player enters angle in Round 1
+        const userAngle = parseFloat(document.getElementById("angleInput").value);
+        if (Math.abs(userAngle - angle) <= 5) {
+            score++;
+            alert("Correct! Proceeding to the next round.");
+        } else {
+            alert("Incorrect! Try again.");
+        }
+    } else if (round === 2) {
+        // Player enters speed in Round 2
+        const userSpeed = parseFloat(document.getElementById("angleInput").value); // Reuse input box
+        if (Math.abs(userSpeed - speed) <= 5) {
+            score++;
+            alert("Correct! Proceeding to the next round.");
+        } else {
+            alert("Incorrect! Try again.");
+        }
+    }
+
+    scoreDisplay.textContent = score;
+    round++;
+    roundDisplay.textContent = round;
+    handleRound();
+}
+
+// Initialize Game
+function initGame() {
+    round = 1;
+    score = 0;
+    roundDisplay.textContent = round;
+    scoreDisplay.textContent = score;
+    handleRound();
+}
+
+// Event Listener for Submit Button
+document.getElementById("submitBtn").addEventListener("click", validateInput);
+
+initGame();
+
 // Cannon and Target
 let cannonX = 100, cannonY = canvas.height - 50;
 let targetX = Math.floor(Math.random() * 400) + 300;
