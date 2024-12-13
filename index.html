@@ -7,18 +7,12 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="game-container">
-        <h1>Projectile Motion Game</h1>
-        <p id="instructions">Round 1: Guess the angle. Round 2: Guess the speed.</p>
-        <canvas id="gameCanvas" width="800" height="400"></canvas>
-        <div class="controls">
-            <label for="input">Enter Value:</label>
-            <input type="number" id="input" placeholder="Enter here" step="0.1">
-            <button id="submitBtn">Submit</button>
-        </div>
-        <p id="feedback"></p>
-        <p id="score">Score: 0</p>
+    <div id="controls">
+        <label for="angleInput">Enter Angle (degrees):</label>
+        <input type="number" id="angleInput" placeholder="0-90">
+        <button id="submitBtn">Shoot</button>
     </div>
-    <script src="script.js" defer></script>
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
+    <script src="script.js"></script>
 </body>
 </html>
