@@ -8,7 +8,7 @@ let targetX = Math.floor(Math.random() * 400) + 300; // Target position
 let targetY = canvas.height - 20;
 
 // User Input Variables
-let speed = 50; // Initial speed
+let speed = 50; // Initial speed (constant for now)
 let angle; // User's input for angle
 let time = 0; // Timer for projectile motion
 let interval;
@@ -72,12 +72,14 @@ function shoot(speed, angle) {
         if (Math.abs(x - targetX) < 20 && Math.abs(y - targetY) < 20) {
             clearInterval(interval);
             alert("Hit the target!");
+            resetGame();
         }
 
         // Stop if out of bounds
         if (y > canvas.height || x > canvas.width) {
             clearInterval(interval);
             alert("Missed! Try again.");
+            resetGame();
         }
 
         time += 0.05;
@@ -96,8 +98,15 @@ document.getElementById("submitBtn").addEventListener("click", () => {
     shoot(speed, angle);
 });
 
+// Reset Game
+function resetGame() {
+    targetX = Math.floor(Math.random() * 400) + 300; // New target position
+    initGame();
+}
+
 // Initialize Game
 function initGame() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawCannon();
     drawTarget();
 }
