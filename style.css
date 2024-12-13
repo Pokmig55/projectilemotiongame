@@ -40,7 +40,11 @@ input {
     padding: 5px;
     font-size: 16px;
 }
-
+#gameInfo {
+    margin: 10px;
+    font-size: 18px;
+    text-align: center;
+}
 button {
     padding: 5px 10px;
     font-size: 16px;
