@@ -7,12 +7,18 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="controls">
-        <label for="angleInput">Enter Angle (degrees):</label>
-        <input type="number" id="angleInput" placeholder="0-90">
-        <button id="submitBtn">Shoot</button>
-    </div>
-    <canvas id="gameCanvas" width="800" height="400"></canvas>
+<div id="controls">
+    <label for="angleInput">Enter Angle (degrees):</label>
+    <input type="number" id="angleInput" placeholder="0-90">
+    <button id="submitBtn">Shoot</button>
+</div>
+<div id="stats">
+    <p>Speed: <span id="speedDisplay">50</span> m/s</p>
+    <p>Angle: <span id="angleDisplay">--</span> degrees</p>
+    <p>Distance: <span id="distanceDisplay">--</span> m</p>
+    <p>Height: <span id="heightDisplay">--</span> m</p>
+</div>
+<canvas id="gameCanvas" width="800" height="400"></canvas>
     <script src="script.js"></script>
 </body>
 </html>
