@@ -1,3 +1,4 @@
+
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const gravity = 9.81;
@@ -193,6 +194,7 @@ function initGame() {
     drawCannon();
     drawTarget();
 }
+myUndefinedFunction();
 initGame();
 
 
