@@ -2,28 +2,44 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 let angleInput = document.getElementById("angle");
+let speedInput = document.getElementById("speed");
 let fireButton = document.getElementById("fireButton");
-let rangeDisplay = document.getElementById("range");
-let speedDisplay = document.getElementById("speedDisplay");
+let targetDistanceDisplay = document.getElementById("targetDistance");
 let scoreDisplay = document.getElementById("score");
+let missesDisplay = document.getElementById("misses");
 
-// Game variables
 const gravity = 9.8;
-let projectile = { x: 100, y: 500, dx: 0, dy: 0, active: false };
+let projectile = { x: 100, y: 500, vx: 0, vy: 0, active: false };
 let target = { x: Math.random() * 400 + 300, y: 500, radius: 20 };
-let speed = Math.random() * 30 + 50; // Random speed between 50 and 80 m/s
-let time = 0;
 let score = 0;
+let misses = 0;
 
-function drawCannon() {
+function drawBackground() {
+  const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  gradient.addColorStop(0, "#87ceeb");
+  gradient.addColorStop(1, "#f0e68c");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function drawCannon(angle) {
+  ctx.save();
+  ctx.translate(100, 500);
+  ctx.rotate(-angle);
   ctx.fillStyle = "black";
-  ctx.fillRect(80, 480, 40, 20);
+  ctx.fillRect(0, -5, 50, 10);
+  ctx.restore();
+
+  ctx.beginPath();
+  ctx.arc(100, 500, 20, 0, Math.PI * 2);
+  ctx.fillStyle = "gray";
+  ctx.fill();
 }
 
 function drawProjectile() {
   ctx.beginPath();
   ctx.arc(projectile.x, projectile.y, 5, 0, Math.PI * 2);
-  ctx.fillStyle = "black";
+  ctx.fillStyle = "red";
   ctx.fill();
 }
 
@@ -36,59 +52,56 @@ function drawTarget() {
 
 function updateProjectile() {
   if (projectile.active) {
-    time += 0.05;
-    projectile.x = 100 + projectile.dx * time;
-    projectile.y = 500 - (projectile.dy * time - 0.5 * gravity * time ** 2);
+    const dt = 0.05;
+    projectile.x += projectile.vx * dt;
+    projectile.y -= projectile.vy * dt - 0.5 * gravity * dt ** 2;
+    projectile.vy -= gravity * dt;
 
-    // Check if projectile hits the ground or goes off-screen
-    if (projectile.y > canvas.height || projectile.x > canvas.width) {
-      projectile.active = false;
-      checkScore();
+    const distToTarget = Math.sqrt((projectile.x - target.x) ** 2 + (projectile.y - target.y) ** 2);
+    if (distToTarget < target.radius) {
+      alert("Hit! +10 Points");
+      score += 10;
+      resetGame();
+    } else if (projectile.y > canvas.height) {
+      misses++;
+      if (misses >= 3) {
+        alert("Game Over! Final Score: " + score);
+        score = 0;
+        misses = 0;
+      }
+      resetGame();
     }
   }
 }
 
-function checkScore() {
-  const dist = Math.sqrt((projectile.x - target.x) ** 2 + (projectile.y - target.y) ** 2);
-  if (dist < target.radius) {
-    alert("Direct hit! +10 points!");
-    score += 10;
-  } else if (dist < 50) {
-    alert("Close! +5 points!");
-    score += 5;
-  } else {
-    alert("Miss! Try again.");
-  }
-  resetGame();
-}
-
 function resetGame() {
-  projectile.x = 100;
-  projectile.y = 500;
   projectile.active = false;
-  time = 0;
   target.x = Math.random() * 400 + 300;
-  speed = Math.random() * 30 + 50;
-  rangeDisplay.textContent = `300 to 700`;
-  speedDisplay.textContent = speed.toFixed(1);
+  targetDistanceDisplay.textContent = Math.abs(target.x - 100).toFixed(2);
   scoreDisplay.textContent = score;
+  missesDisplay.textContent = misses;
 }
 
 function fireProjectile() {
   if (!projectile.active) {
-    const angleRad = (parseFloat(angleInput.value) * Math.PI) / 180;
+    const angleDeg = parseFloat(angleInput.value);
+    const speed = parseFloat(speedInput.value);
 
-    projectile.dx = speed * Math.cos(angleRad);
-    projectile.dy = speed * Math.sin(angleRad);
+    const angleRad = (angleDeg * Math.PI) / 180;
+    projectile.vx = speed * Math.cos(angleRad);
+    projectile.vy = speed * Math.sin(angleRad);
+    projectile.x = 100;
+    projectile.y = 500;
     projectile.active = true;
-    time = 0;
   }
 }
 
 function gameLoop() {
+  drawBackground();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  drawCannon();
+  const angle = (parseFloat(angleInput.value) * Math.PI) / 180;
+  drawCannon(angle);
   drawTarget();
   if (projectile.active) {
     drawProjectile();
@@ -100,9 +113,5 @@ function gameLoop() {
 
 fireButton.addEventListener("click", fireProjectile);
 
-// Initialize game
-rangeDisplay.textContent = `300 to 700`;
-speedDisplay.textContent = speed.toFixed(1);
-scoreDisplay.textContent = score;
+resetGame();
 gameLoop();
-
