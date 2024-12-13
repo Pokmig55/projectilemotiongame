@@ -12,6 +12,8 @@ let score = 0;
 let targetX = Math.floor(Math.random() * 300) + 400; // Target position
 let targetY = canvas.height - 20;
 let speed, angle;
+let cannonX = 100; // Cannon base X position
+let cannonY = canvas.height - 50; // Cannon base Y position
 
 // Generate target
 function drawTarget() {
@@ -22,7 +24,22 @@ function drawTarget() {
     ctx.closePath();
 }
 
-// Draw the cannonball
+// Draw the cannon
+function drawCannon() {
+    ctx.beginPath();
+    ctx.rect(cannonX, cannonY - 20, 50, 20); // Cannon barrel
+    ctx.fillStyle = "gray";
+    ctx.fill();
+    ctx.closePath();
+
+    ctx.beginPath();
+    ctx.arc(cannonX + 25, cannonY, 10, 0, Math.PI * 2); // Cannon wheels
+    ctx.fillStyle = "black";
+    ctx.fill();
+    ctx.closePath();
+}
+
+// Draw the cannonball (projectile)
 function drawCannonball(x, y) {
     ctx.beginPath();
     ctx.arc(x, y, 10, 0, Math.PI * 2);
@@ -38,8 +55,8 @@ function calculateTrajectory(speed, angle) {
     const points = [];
 
     for (let t = 0; t <= time; t += 0.1) {
-        const x = speed * t * Math.cos(rad);
-        const y = canvas.height - (speed * t * Math.sin(rad) - 0.5 * 9.8 * t * t);
+        const x = cannonX + 50 + speed * t * Math.cos(rad);
+        const y = cannonY - 20 - (speed * t * Math.sin(rad) - 0.5 * 9.8 * t * t);
         points.push({ x, y });
     }
 
@@ -60,6 +77,7 @@ function shoot(speed, angle) {
 
         const { x, y } = trajectory[index];
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawCannon();
         drawTarget();
         drawCannonball(x, y);
 
@@ -104,6 +122,7 @@ function nextRound() {
 
 // Initialize game
 function initGame() {
+    drawCannon();
     drawTarget();
 }
 
