@@ -1,88 +1,13 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-const gravity = 9.8;
-
-let round = 1;
-let score = 0;
-
-// Update HTML elements
-const roundDisplay = document.getElementById("roundDisplay");
-const scoreDisplay = document.getElementById("scoreDisplay");
-
-// Function to handle rounds
-function handleRound() {
-    if (round === 1) {
-        // Round 1: System provides speed, player guesses angle
-        speed = 50; // Fixed speed for Round 1
-        alert("Round 1: Guess the angle to hit the target!");
-    } else if (round === 2) {
-        // Round 2: System provides angle, player guesses speed
-        angle = Math.floor(Math.random() * 70) + 10; // Random angle for Round 2
-        alert("Round 2: Guess the speed to hit the target!");
-    } else {
-        alert("Game Over! Final Score: " + score);
-        resetGame();
-    }
-}
-
-// Check input and validate
-function validateInput() {
-    if (round === 1) {
-        // Player enters angle in Round 1
-        const userAngle = parseFloat(document.getElementById("angleInput").value);
-        if (Math.abs(userAngle - angle) <= 5) {
-            score++;
-            alert("Correct! Proceeding to the next round.");
-        } else {
-            alert("Incorrect! Try again.");
-        }
-    } else if (round === 2) {
-        // Player enters speed in Round 2
-        const userSpeed = parseFloat(document.getElementById("angleInput").value); // Reuse input box
-        if (Math.abs(userSpeed - speed) <= 5) {
-            score++;
-            alert("Correct! Proceeding to the next round.");
-        } else {
-            alert("Incorrect! Try again.");
-        }
-    }
-
-    scoreDisplay.textContent = score;
-    round++;
-    roundDisplay.textContent = round;
-    handleRound();
-}
-
-// Initialize Game
-function initGame() {
-    round = 1;
-    score = 0;
-    roundDisplay.textContent = round;
-    scoreDisplay.textContent = score;
-    handleRound();
-}
-
-// Event Listener for Submit Button
-document.getElementById("submitBtn").addEventListener("click", validateInput);
-
-initGame();
+const gravity = 9.81;
 
 // Cannon and Target
-let cannonX = 100, cannonY = canvas.height - 50;
+let cannonX = 100, cannonY = canvas.height - 00;
 let targetX = Math.floor(Math.random() * 400) + 300;
 let targetY = canvas.height - 20;
-
-// User Input Variables
-let speed = 50; // Fixed speed
-let angle; // User's input for angle
-let time = 0; // Timer for projectile motion
-let interval;
-
-// HTML Elements for Stats
-const speedDisplay = document.getElementById("speedDisplay");
-const angleDisplay = document.getElementById("angleDisplay");
-const distanceDisplay = document.getElementById("distanceDisplay");
-const heightDisplay = document.getElementById("heightDisplay");
+let round = 1;
+let score = 0;
 
 // Draw Cannon
 function drawCannon() {
@@ -129,14 +54,30 @@ function calculateStats(speed, angle) {
     const rad = (angle * Math.PI) / 180;
 
     const maxHeight = (speed ** 2 * Math.sin(rad) ** 2) / (2 * gravity);
-    const range = (speed ** 2 * Math.sin(2 * rad)) / gravity;
+    const range = ( (1/2) * 2 * (speed * Math.cos(rad)) * time;
 
     return { maxHeight, range };
 }
 
+
+
+// User Input Variables
+let speed; // User' input for speed
+let angle; // User's input for angle
+let time = 0; // Timer for projectile motion
+let interval;
+
+// HTML Elements for Display
+const speedDisplay = document.getElementById("speedDisplay");
+const angleDisplay = document.getElementById("angleDisplay");
+const distanceDisplay = document.getElementById("distanceDisplay");
+const heightDisplay = document.getElementById("heightDisplay");
+const roundDisplay = document.getElementById("roundDisplay");
+const scoreDisplay = document.getElementById("scoreDisplay");
+
 // Shoot the Cannonball
 function shoot(speed, angle) {
-    let projectileX = cannonX + 50, projectileY = cannonY - 20;
+    let projectileX = cannonX, projectileY = cannonY;
 
     time = 0;
 
@@ -180,6 +121,54 @@ function shoot(speed, angle) {
     }, 20);
 }
 
+//ROUND SYSTEM
+function handleRound() {
+    if (round === 1) {
+        // Round 1: System provides speed, player guesses angle
+        // Fixed Data for Round 1
+        speed = 18.3; 
+        distance = 30 ;
+        height 1.37 ;
+        alert("Round 1: Guess the angle to hit the target!");
+    } else if (round === 2) {
+        // Round 2: System provides angle, player guesses speed
+        // Provided Data for Round 2
+        angle = 35 ;
+        distance = 21.55 ;
+        height = println (" ??? ") 
+        alert("Round 2: Guess the speed to hit the target!");
+    } else {
+        alert("Game Over! Final Score: " + score);
+        resetGame();
+    }
+}
+
+// Check input and validate
+function validateInput() {
+    if (round === 1) {
+        // Player enters angle in Round 1
+        const userAngle = parseFloat(document.getElementById("angleInput").value);
+        if (Math.abs(userAngle - angle) <= 35) {
+            score++;
+            alert("Correct! Proceeding to the next round.");
+        } else {
+            alert("Incorrect! Try again.");
+        }
+    } else if (round === 2) {
+        // Player enters speed in Round 2
+        const userSpeed = parseFloat(document.getElementById("angleInput").value); // Reuse input box
+        if (Math.abs(userSpeed - speed) <= 15) {
+            score++;
+            alert("Correct! Proceeding to the next round.");
+        } else {
+            alert("Incorrect! Try again.");
+        }
+    }
+    scoreDisplay.textContent = score;
+    round++;
+    roundDisplay.textContent = round;
+    handleRound();
+}
 // Event Listener for User Input
 document.getElementById("submitBtn").addEventListener("click", () => {
     angle = parseFloat(document.getElementById("angleInput").value);
@@ -204,5 +193,6 @@ function initGame() {
     drawCannon();
     drawTarget();
 }
-
 initGame();
+
+
