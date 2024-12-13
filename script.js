@@ -80,4 +80,31 @@ function shoot(speed, angle) {
 submitBtn.addEventListener("click", () => {
     const value = parseFloat(input.value);
     if (isNaN(value)) {
-        feedback.textContent = "Enter a valid number.
+        feedback.textContent = "Enter a valid number.";
+        return;
+    }
+
+    if (round === 1) {
+        angle = value;
+        shoot(50, angle); // Speed given in round 1
+    } else if (round === 2) {
+        speed = value;
+        shoot(speed, 45); // Angle given in round 2
+    }
+});
+
+// Move to the next round
+function nextRound() {
+    round++;
+    if (round > 2) {
+        feedback.textContent = "Game Over! Restarting...";
+        setTimeout(() => location.reload(), 3000);
+    }
+}
+
+// Initialize game
+function initGame() {
+    drawTarget();
+}
+
+initGame();
