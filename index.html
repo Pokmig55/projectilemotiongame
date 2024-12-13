@@ -4,7 +4,50 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projectile Motion Challenge</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #87ceeb, #f0e68c);
+      margin: 0;
+      text-align: center;
+    }
+
+    .game-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    canvas {
+      border: 2px solid black;
+      background: transparent;
+    }
+
+    .controls {
+      margin-top: 10px;
+    }
+
+    button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .info {
+      margin-top: 10px;
+    }
+
+    .info p {
+      margin: 5px 0;
+    }
+  </style>
 </head>
 <body>
   <div class="game-container">
