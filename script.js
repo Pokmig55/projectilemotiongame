@@ -8,7 +8,7 @@ let targetDistanceDisplay = document.getElementById("targetDistance");
 let scoreDisplay = document.getElementById("score");
 let missesDisplay = document.getElementById("misses");
 
-const gravity = 9.81;
+const gravity = 9.8;
 let projectile = { x: 100, y: 500, vx: 0, vy: 0, active: false };
 let target = { x: Math.random() * 400 + 300, y: 500, radius: 20 };
 let score = 0;
