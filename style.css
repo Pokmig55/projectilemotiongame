@@ -36,3 +36,7 @@ button:hover {
 .info {
   margin-top: 10px;
 }
+
+.info p {
+  margin: 5px 0;
+}
